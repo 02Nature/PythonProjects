@@ -38,4 +38,27 @@ print(x.head())
 predicted_house_prices = house_prediction_model.predict(x)
 print(predicted_house_prices)
 
+#its good practices to measuere the quality of the model, this is done by finding the Mean Absolute Error of the mode
+
+from sklearn.metrics import mean_absolute_error
+
+print("MAR", mean_absolute_error(y, predicted_house_prices))
+
+#testing the model with the data that was not present while building the model is known as validation of the model
+#let try this
+
+from sklearn.model_selection import train_test_split
+# train test split the dataset randomly for training and validation for both target and features
+
+train_x, val_x, train_y, val_y = train_test_split(x, y, random_state=0)
+#just defining the model
+valid_house_prediction_model = DecisionTreeRegressor()
+valid_house_prediction_model.fit(train_x, train_y)
+val_prediction =valid_house_prediction_model.predict(val_x)
+
+print("First in-sample predictions:", valid_house_prediction_model.predict(x.head()))
+print("Actual target values for those homes:", y.head().tolist())
+
+print('valid moel' ,mean_absolute_error(val_y, val_prediction))
+
 
